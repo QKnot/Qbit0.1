@@ -11,9 +11,10 @@ bot = commands.Bot(command_prefix='/', intents=intents)
 async def on_ready():
     print(f'{bot.user} has connected to Discord! 🤖')
 
-@bot.command(name='help')
-async def help(ctx):
+@bot.command(name='helpBot')
+async def helpBot(ctx):
     commands_list = """
+    ```
     Available Commands:
     /help - List all the commands
     /about - About the bot 
@@ -28,6 +29,7 @@ async def help(ctx):
         b) platform => Recommend some algorithm problem-solving platforms 
         c) blog => Recommend algorithm blogs 
         d) videos => Recommend algorithm videos
+
     /language - Gives multiple options:
         a) cpp => Recommend C++ reference website
             1) books => Recommend the best C++ books 
@@ -46,19 +48,27 @@ async def help(ctx):
     /birthDay - 30 Oct 2024 
     /creator - Rahul Kumar Ghosh 
     /coverpage - Generates a cover page
+    ```
     """
     await ctx.send(commands_list)
+    
+    # /cp - Gives multiple options to select:
+    #     a) books => Recommend CP books 
+    #     b) platform => Recommend CP judges
+    #     c) blog => Recommend some Bangla blogs
+    #     d) banglaBlog => Recommend some Bangla blogs
 
 @bot.group(name='cp', invoke_without_command=True)
 async def cp(ctx):
-    """Provides options for CP resources."""
-    await ctx.send("""
-    **CP Options:**
-    `/cp books` - Recommend CP books
-    `/cp platform` - Recommend CP judge platforms
-    `/cp blog` - Recommend some Bangla blogs
-    `/cp banglaBlog` - Recommend some Bangla blogs
-    """)
+    if ctx.invoked_subcommand is None:
+        await ctx.send("""
+        **CP Options:**
+        Use any of these subcommands:
+        `/cp books` - Recommend CP books
+        `/cp platform` - Recommend CP judge platforms
+        `/cp blog` - Recommend some Bangla blogs
+        `/cp banglaBlog` - Recommend additional Bangla blogs
+        """)
 
 @cp.command(name='books')
 async def cp_books(ctx):
@@ -104,4 +114,29 @@ async def cp_bangla_blog(ctx):
     """
     await ctx.send(bangla_blog)
 
-bot.run('YOUR_BOT_TOKEN')
+    # /algorithm - Gives multiple options:
+    #     a) books => Recommend algorithmic books
+    #     b) platform => Recommend some algorithm problem-solving platforms 
+    #     c) blog => Recommend algorithm blogs 
+    #     d) videos => Recommend algorithm videos
+
+@bot.group(name='algorithm', invoke_without_command=True)
+async def algorithm(ctx):
+    if ctx.invoked_subcommand is None:
+        await ctx.send("""
+            **Algorithm Options:**
+            Use any of these subcommands:
+            `/algorithm books` - Recommend algorithmic books
+            `/algorithm platform` - Recommend some algorithm problem-solving platforms
+            `/algorithm blog` - Recommend algorithm blogs
+            `/algorithm videos` - Recommend algorithm videos
+        """)
+
+#algorithm Videos 
+@algorithm.command(name='videos')
+async def algorithmVideos(ctx):
+    algovideos = """
+        [`Mit Algorithm`](https://youtube.com/playlist?list=PLUl4u3cNGP61Oq3tWYp6V_F-5jb5L2iHb&si=REvpiW-IkBW4Zu-X)
+    """
+    await ctx.send(algovideos)
+bot.run('')
